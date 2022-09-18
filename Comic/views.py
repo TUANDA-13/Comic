@@ -1,6 +1,6 @@
 from winreg import QueryInfoKey, QueryValue
 from Comic.models import Category, Chapter, Comic
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.views import View
 from django.db.models import Avg, Max, Min, Count, Sum
 from .models import *
@@ -38,7 +38,19 @@ class ComicInfo(View):
             'suggest_comic':suggest_comic,
         }
         return render(request, 'Comic/comic.html', context)
-
+    def post(self, request, id=1):
+        if request.method == "POST":
+            
+            content = request.POST["comment"]
+            comment = ComicComment(Comic=Comic.objects.get(pk=id),
+                                   Content = content,
+                                   User=Profile.objects.get(pk=request.session['id']))
+            if((request.POST["type"])=='reply'):
+                id_comment = request.POST["id-comment"]
+                comment.Reply = ComicComment.objects.get(pk=id_comment)
+            # print(comment.Chapter)
+            comment.save()
+        return redirect(request.path_info)
 
 class CategoryView(View):
     def get(self, request, id=0):
@@ -97,26 +109,23 @@ class ChapterView(View):
             'chapter':chapter,
         }
         return render(request,'Comic/chapter.html',context)
+    def post(self,request,id=1,id_chap=1):
+        if request.method == "POST":
+            content = request.POST["comment"]
+            comment = ComicComment(Comic=Comic.objects.get(pk=id),
+                                   Chapter=Chapter.objects.get(pk=id_chap),
+                                   Content = content,
+                                   User=Profile.objects.get(pk=request.session['id']))
+            if((request.POST["type"])=='reply'):
+                id_comment = request.POST["id-comment"]
+                comment.Reply = ComicComment.objects.get(pk=id_comment)
+            comment.save()
+        return redirect(request.path_info)
 
 def Test(request):
-    # chapter = Chapter.objects.all().select_related('chapterprevious')
-    # # chapter.\
-    # print(chapter)
-    # chapter = Chapter.objects.all().prefetch_related('chapterprevious').filter(id=14).chapterprevious__id
-    # # chapter.\
-    # print(chapter)
-    # chapter = Chapter.objects.all()[14].id
-    # print(chapter)    
     chapter = Chapter.objects.prefetch_related('chapterprevious')
     chapter = Chapter.objects.all()[5].chapterprevious.id
     print(chapter)
-    # for i in chapter:
-    #     print(i.chapterprevious.all())
-    #     print(i)
-    # print((chapter.filter(id=1)[0]).PreviousChapter.id)
-    # for i in chapter:
-    #     if i.PreviousChapter is not None:
-    #         for j in chapter:
-    #             if i.Comic.Name == j.Comic.Name:
-    #                 print(i.id)
     return render(request,'Comic/test.html',context = {'chapter':chapter})
+
+

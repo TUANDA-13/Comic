@@ -82,16 +82,17 @@ class Page(models.Model):
         super().update(*args, **kwargs)
         super().get(*args, **kwargs)
 
-class CommentComic(models.Model):
+class ComicComment(models.Model):
     Comic = models.ForeignKey(Comic,on_delete=models.CASCADE,related_name='comments')
     Chapter = models.ForeignKey(Chapter,on_delete=models.CASCADE,blank=True,null=True)
     CreateAt = models.DateTimeField(default=datetime.datetime.now())
     Content = models.TextField(blank=False)
     User = models.ForeignKey(Profile,on_delete=models.CASCADE)
+    Reply = models.ForeignKey("ComicComment",on_delete=models.CASCADE,related_name='replies',blank=True,null=True)
     
-class RepComment(models.Model):
-    Comment = models.ForeignKey(CommentComic,on_delete=models.CASCADE,related_name='replies')
-    Content = models.TextField()
-    User = models.ForeignKey(Profile,on_delete=models.CASCADE)
-    CreateAt = models.DateTimeField(default=datetime.datetime.now())
+# class RepComment(models.Model):
+#     Comment = models.ForeignKey(CommentComic,on_delete=models.CASCADE,related_name='replies')
+#     Content = models.TextField()
+#     User = models.ForeignKey(Profile,on_delete=models.CASCADE)
+#     CreateAt = models.DateTimeField(default=datetime.datetime.now())
     
