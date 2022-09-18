@@ -1,0 +1,173 @@
+<!-- code dương anh tuấn và thu thủy sẽ thành đôi và 2 người sẽ hạnh phúc mãi mãi về sau\ -->
+{% extends "base-comic.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+{% block header %}
+<section class="suggest-comic py-4">
+    <div class="container h-100">
+        <h6 class="text-white">TRUYỆN HAY ĐỀ CỬ</h6>
+        <div class="row h-100">
+            <div class="col-3 h-100">
+                <div class="hot-comic h-100 gradient-border">
+                    <a href="{% url 'comic' id=hot_chapter.Comic__id %}">
+                        <div class="">
+                            <img class="hot-comic" src="{{hot_chapter.Comic__Banner}}">
+                            <div class="hot-comic-content">
+                                <div class="info-comic">
+                                    <p class="info-comic-name">{{hot_chapter.Comic__Name}}</p>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div>Chap {{hot_chapter.Comic__Chapters}}</div>
+                                            <div>Day</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div>View</div>
+                                            <div>Follow</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-9">
+                <div class="slider">
+                    <div class="slider-track">
+                        {% for chapter in suggest_chapter %}
+                        <a href="{% url 'comic' id=chapter.Comic__id %}">
+                            <div class="slide">
+                                <div class="position-relative">
+                                    <img src="{{chapter.Comic__Banner}}">
+                                    <div class="info-comic">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div>
+                                                    <div class="row">
+                                                        <div class="col-2"><i class="fa-solid fa-eye"></i></div>
+                                                        <div class="col-9">{{chapter.Views}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="info-comic-name">{{chapter.Comic__Name | truncatewords:5}}</p>
+                                    <div>
+                                        Chapter
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+<section class="update-comic-lasted py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-9">
+                <h5>TRUYỆN MỚI CẬP NHẬT</h5>
+                <div class="cover">
+                    <div class="row justify-content-center">
+                        {% for chapter in chapters %}
+                        <div class="col-6 col-md-4 col-lg-3 pb-3 ">
+                            <div class="slide-comic">
+                                <a href="{% url 'comic' id=chapter.Comic__id %}">
+                                    <div class="position-relative">
+                                        <img src="/{{chapter.Comic__Banner}}">
+                                        <div class="info-comic">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="row">
+                                                        <div class="col-2"><i class="fa-solid fa-eye"></i></div>
+                                                        <div class="col-10"> {{chapter.Views}} views</div>
+                                                        <div class="col-2"><i class="fa-solid fa-file"></i></div>
+                                                        <div class="col-10"> {{chapter.Chapters}} chapters</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="comic-slide-content text-dark">
+                                        <p>{{chapter.Comic__Name | truncatewords:6}}</p>
+                                        <div>
+                                            <!-- {} -->
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <div class="pagination pt-2">
+                    <span class="step-links text-black">
+                        {% if chapters.has_previous %}
+                        <a href="?page={{ chapters.previous_page_number }}"
+                            class="text-dark pagination-number-page">Previous</a>
+                        {% endif %}
+                    </span>
+
+                    <span class="current">
+                        <p class="pagination-number-page">{{ chapters.number }}</p>
+                    </span>
+
+                    <span>
+                        {% if chapters.has_next %}
+                        <a href="?page={{ chapters.next_page_number }}"
+                            class="text-dark pagination-number-page">Next</a>
+                        {% endif %}
+                    </span>
+                </div>
+
+            </div>
+            <div class="d-none d-lg-block col-lg-3">
+                <h5>THỂ LOẠI ĐƯỢC YÊU THÍCH</h5>
+                <div class="cover">
+                    <div class="type-comic-favourite"
+                        style="background-image: url('https://c4.wallpaperflare.com/wallpaper/758/769/69/legion-legion-5-lenovo-gaming-laptop-anime-hd-wallpaper-preview.jpg');">
+                        <p class="h-100">Đam mỹ</p>
+                        <div class="type-comic-favourite__slice">
+                        </div>
+                    </div>
+                    <div class="type-comic-favourite"
+                        style="background-image: url('https://images5.alphacoders.com/106/1061278.png');">
+                        <p class="h-100">Yaoi</p>
+                        <div class="type-comic-favourite__slice">
+                        </div>
+                    </div>
+                    <div class="type-comic-favourite"
+                        style="background-image: url('https://mcdn.coolmate.me/image/May2022/manhwa-la-gi-manga-la-gi-manhua-la-gi-phan-cuc-de_476.jpg');">
+                        <p class="h-100">Manhwa</p>
+                        <div class="type-comic-favourite__slice">
+                        </div>
+                    </div>
+                    <div class="type-comic-favourite"
+                        style="background-image: url('https://inkythuatso.com/uploads/thumbnails/800/2022/03/anh-my-do-toa-nu-vuong-xinh-dep-1-16-17-07-47.jpg');">
+                        <p class="h-100">Manhua</p>
+                        <div class="type-comic-favourite__slice">
+                        </div>
+                    </div>
+                    <div class="type-comic-favourite"
+                        style="background-image: url('https://mcdn.coolmate.me/image/May2022/manhwa-la-gi-manga-la-gi-manhua-la-gi-phan-cuc-de_829.jpg');">
+                        <p class="h-100">Ngôn tình</p>
+                        <div class="type-comic-favourite__slice">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

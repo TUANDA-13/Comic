@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/Comic/chapter.css' %}">
+{% endblock %}
+
+{% block title %}
+<title>SEARCH</title>
+{% endblock %}
+
+{% block content %}
+<section class="function-reading">
+    <div class="container">
+        <div class="function">
+            <ul class="function-list">
+                <li><a href="{% url 'comic' chapter.Comic.id %}"><i class="fa-solid fa-list"></i></a></li>
+                <li><a href=""><i class="fa-solid fa-left-long"></i></a></li>
+                <li><a href=""><i class="fa-solid fa-heart"></i></a></li>
+                <li><a href=""><i class="fa-solid fa-right-long"></i></a></li>
+                <li><a href=""><i class="fa-solid fa-circle-info"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="reading-picture h-auto pb-5">
+    <div class="container">
+        <div class="reading d-flex justify-content-center flex-column">
+            <div class="comic-title d-flex justify-content-center py-5">{{chapter.Comic.Name|upper}} [<p>Chap {{chapter.NumberChapter}}</p>]</div>
+            {% for page in pages %}
+            <img src="/{{page.Page}}" alt="">
+            {% empty %}
+            <p class="d-flex justify-content-center">KHONG THE TIM THAY PAGE</p>
+            {% endfor %}
+            <div class="chap-tranfer d-flex py-3 justify-content-around px-5 mx-5">
+                {% if chapter.PreviousChapter is not None %}
+                <div class="previous-chap "><a href="{% url 'chapter' chapter.Comic.id chapter.PreviousChapter.id %}" class="hover-change-color tranger">Tập trước</a></div>
+                {% endif %}
+                <!-- {{chapter.chapterprevious.id}} -->
+                {% if chapter.chapterprevious %}
+                <div class="next-chap hover-change-color tranger"><a href="{% url 'chapter' chapter.Comic.id chapter.chapterprevious.id %}" class="hover-change-color tranger">Tập sau</a></div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="cover mt-5">
+            <h4>Bình luận</h4>
+            {% for i in chapter.Comic.comments.all %}
+            <div class="row mt-3">
+                <div class="col-1">
+                    <img class="user-avatar" src="/{{chapter.Comic.Banner}}">
+                </div>
+                <div class="col-11">
+                    <div class="comment-box px-4 py-2">
+                        <div class="title">
+                            <span class="comment-user-name mb-1">{{i.User.Name}}</span>
+                            <span class="pl-4 comment-chapter">Chapter - {{i.Chapter.NumberChapter}}</span>
+                        </div>
+                        <div class="comment-user-content pt-1">{{i.Content}}</div>
+                    </div>
+                    <div class="reply mt-1"><i class="fa-sharp fa-solid fa-reply"></i>Phản hồi <span class="ml-4 opacity-75">{{i.CreateAt}}</span></div>
+                    {% for j in i.replies.all %}
+                    <div class="row mt-3">
+                        <div class="col-1">
+                            <img class="user-avatar" src="/{{chapter.Comic.Banner}}">
+                        </div>
+                        <div class="col-11">
+                            <div class="comment-box px-4 py-2">
+                                <div class="title">
+                                    <span class="comment-user-name mb-1">{{i.User.Name}}</span>
+                                    <span class="pl-4 comment-chapter">Chapter - {{i.Chapter.NumberChapter}}</span>
+                                </div>
+                                <div class="comment-user-content pt-1">{{j.Content}}</div>
+                            </div>
+                            <div><span class="ml-4 opacity-75">{{j.CreateAt}}</span></div> 
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,110 @@
+:root {
+    --color-main: rgb(206, 189, 0);
+    --color-blue: #156D79;
+    --color-white: #fff;
+    --color-blue-hover: #11565f;
+    --color-gray: rgb(230, 230, 230);
+    --color-black: #000;
+}
+
+.login__box{
+    height: 300px;
+    width: 60%;
+    background-color: var(--color-white);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 40px;
+}
+.form-attribute{
+    width: 80%;
+}
+.form-attribute p{
+    font-weight: 500;
+}
+.form-attribute input{
+    width: 100%;
+    margin-bottom: 15px;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid var(--color-blue-hover);
+    height: 40px;
+}
+form{
+    width: 60%;
+}
+.btn-submit{
+    width: 100%;
+    background-color: var(--color-blue);
+    color: var(--color-white);
+    height: 40px;
+}
+.btn-submit:hover{
+    background-color: var(--color-blue-hover);
+    font-weight: 900;
+    cursor: pointer;
+    transition: all .2s;
+}
+.error{
+    color: var(--color-danger);
+    font-weight: 500;
+}
+
+/* REGISTER */
+
+.cover{
+    background-color: #fff;
+    margin-top:40px;
+    margin-bottom: 40px;
+    max-width: 400px; 
+}
+#id_user-Email,
+#id_user-Password,
+#id_profile-Name,
+#id_profile-Phone,
+#id_profile-Gender,
+#id_user-ConfirmPassword,
+#id_profile-Avatar{
+    height: 36px;
+    border: none;
+    background-color: #fff;
+    outline: none;
+    margin-bottom: 8px;
+}
+#id_user-Email,
+#id_user-Password,
+#id_profile-Name,
+#id_profile-Phone,
+#id_user-ConfirmPassword,
+#id_profile-Gender{
+    border-bottom:2px solid var(--color-blue);
+    color: var(--color-blue-hover);
+    font-weight: 700;
+    width: 100%;
+}
+input::placeholder{
+    color: var(--color-gray);
+    font-size: 16px;
+}
+
+#file-upload-button,
+input.btn{
+    font-size: 16px;
+    background-color: #fff !important;
+}
+#id_profile-Avatar,
+#file-upload-button{
+    color: #11565f !important;
+}
+.btn-register__submit{
+    width: 100%;
+    border: 2px solid var(--color-blue-hover);
+    transition: all 0.2s ease;
+}
+.btn-register__submit:hover{
+    color: #fff;
+    background-color: var(--color-blue) !important;
+    font-weight: 700;
+}

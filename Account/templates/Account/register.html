@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/Account/account.css' %}">
+{% endblock %}
+
+{% block title %}
+<title>Register</title>
+{% endblock %}
+
+
+{% block content %}
+<section class="register">
+    <div class="container d-flex justify-content-center">
+        <div class="cover d-flex w-100 flex-column p-5  ">
+            <h1 class="w-100 d-flex justify-content-center">Đăng ký</h1>
+            
+            <form class="w-100" action="{% url 'register' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p class="w-100">{{form.user.Email}}</p>
+                <p class="w-100">{{form.user.Password}}</p>
+                <p class="w-100">{{form.user.ConfirmPassword}}</p>
+                <p class="w-100">{{form.profile.Name}}</p>
+                <p class="w-100">{{form.profile.Phone}}</p>
+                <p class="w-100">{{form.profile.Gender}}</p>
+                <p class="w-100">{{form.profile.Avatar}}</p>
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %} 
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+                <input type="submit" class="btn btn-register__submit" value="Đăng ký">
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
