@@ -43,7 +43,34 @@
         </div>
         <div class="cover mt-5">
             <h4>Bình luận</h4>
+
+            {% comment %} add comment {% endcomment %}
+
+            {% if request.session.id %}
+            <div class="row">
+                <div class="col-1">
+                    <img class="user-avatar" src="/{{chapter.Comic.Banner}}">
+                </div>
+                <div class="col-11">
+                    <form action="{% url 'chapter' chapter.Comic.id chapter.id %}" method="POST">
+                        {% csrf_token %}
+                        <textarea id="comment-content" name="comment" rows="3" cols="50" class="w-100 p-3" placeholder="Bình luận của bạn là gì?"></textarea>
+                        <input type="submit" value="Đăng" class="btn submit-btn">
+                        <input type="text" value="comment" name="type" readonly hidden class="">
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <div class="login-to-comment">
+                Vui lòng đăng nhập để viết bình luận
+            </div>
+            {% endif %}
+
+            {% comment %} show comment {% endcomment %}
+
             {% for i in chapter.Comic.comments.all %}
+            {% if i.Reply %}
+            {% else %}
             <div class="row mt-3">
                 <div class="col-1">
                     <img class="user-avatar" src="/{{chapter.Comic.Banner}}">
@@ -52,11 +79,45 @@
                     <div class="comment-box px-4 py-2">
                         <div class="title">
                             <span class="comment-user-name mb-1">{{i.User.Name}}</span>
+                            {% if i.Chapter.NumberChapter != None %}
                             <span class="pl-4 comment-chapter">Chapter - {{i.Chapter.NumberChapter}}</span>
+                            {% endif %}
                         </div>
                         <div class="comment-user-content pt-1">{{i.Content}}</div>
                     </div>
-                    <div class="reply mt-1"><i class="fa-sharp fa-solid fa-reply"></i>Phản hồi <span class="ml-4 opacity-75">{{i.CreateAt}}</span></div>
+                    <div class="reply mt-1">
+                        <i class="fa-sharp fa-solid fa-reply"></i>
+                        <span onclick="addBlockReply(this)" class="cursor-pointer">Phản hồi </span>
+                        <span class="ml-4 opacity-75">{{i.CreateAt}}</span>
+                    </div>
+                    
+                    {% comment %} add reply comment {% endcomment %}
+
+                    <div class="reply-hidden mt-3">
+                        {% if request.session.id %}
+                        <div class="row">
+                            <div class="col-1">
+                                <img class="user-avatar" src="/{{chapter.Comic.Banner}}">
+                            </div>
+                            <div class="col-11">
+                                <form action="{% url 'chapter' chapter.Comic.id chapter.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <textarea id="comment-content" name="comment" rows="3" cols="50" class="w-100 p-3" placeholder="Bình luận của bạn là gì?"></textarea>
+                                    <input type="submit" value="Đăng" class="btn submit-btn">
+                                    <input type="text" value="reply" name="type" readonly hidden class="">
+                                    <input type="text" value="{{i.id}}" name="id-comment" readonly hidden class=""> 
+                                </form>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="login-to-comment">
+                            Vui lòng đăng nhập để viết bình luận
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    {% comment %} reply comment {% endcomment %}
+
                     {% for j in i.replies.all %}
                     <div class="row mt-3">
                         <div class="col-1">
@@ -65,8 +126,10 @@
                         <div class="col-11">
                             <div class="comment-box px-4 py-2">
                                 <div class="title">
-                                    <span class="comment-user-name mb-1">{{i.User.Name}}</span>
-                                    <span class="pl-4 comment-chapter">Chapter - {{i.Chapter.NumberChapter}}</span>
+                                    <span class="comment-user-name mb-1">{{j.User.Name}}</span>
+                                    {% if j.Chapter.NumberChapter != None %}
+                                    <span class="pl-4 comment-chapter">Chapter - {{j.Chapter.NumberChapter}}</span>
+                                    {% endif %}
                                 </div>
                                 <div class="comment-user-content pt-1">{{j.Content}}</div>
                             </div>
@@ -76,8 +139,12 @@
                     {% endfor %}
                 </div>
             </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
 </section>
+<script>
+    
+</script>
 {% endblock %}

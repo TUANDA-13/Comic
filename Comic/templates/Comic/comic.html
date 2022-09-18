@@ -105,7 +105,7 @@
                                 <th scope="row"><a href="{% url 'chapter' chapter.Comic.id chapter.id %}" class="text-dark">Chap {{chapter.NumberChapter}}</a></th>
                                 <td class="text-secondary">{{chapter.NameChapter}}</td>
                                 <td class="text-secondary">{{chapter.CreateAt|date:'d/m/y H:i'}}</td>
-                                <td class="text-secondary ">{{chapter.Views}}</td>
+                                <td class="text-secondary">{{chapter.Views}}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -113,7 +113,79 @@
                 </div>
                 <div class="cover mt-5">
                     <h4>Bình luận</h4>
-                    {% for i in comic.comments.all %}
+                    {% if request.session.id %}
+            <div class="row">
+                <div class="col-1">
+                    <img class="user-avatar" src="/{{comic.Banner}}">
+                </div>
+                <div class="col-11">
+                    <form action="{% url 'comic' comic.id %}" method="POST">
+                        {% csrf_token %}
+                        <textarea id="comment-content" name="comment" rows="3" cols="50" class="w-100 p-3" placeholder="Bình luận của bạn là gì?"></textarea>
+                        <input type="submit" value="Đăng" class="btn submit-btn">
+                        <input type="text" value="comment" name="type" readonly hidden class="">
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <div class="login-to-comment">
+                Vui lòng đăng nhập để viết bình luận
+            </div>
+            {% endif %}
+
+            {% comment %} show comment {% endcomment %}
+
+            {% for i in comic.comments.all %}
+            {% if i.Reply %}
+            {% else %}
+            <div class="row mt-3">
+                <div class="col-1">
+                    <img class="user-avatar" src="/{{comic.Banner}}">
+                </div>
+                <div class="col-11">
+                    <div class="comment-box px-4 py-2">
+                        <div class="title">
+                            <span class="comment-user-name mb-1">{{i.User.Name}}</span>
+                            {% if i.Chapter.NumberChapter != None %}
+                            <span class="pl-4 comment-chapter">Chapter - {{i.Chapter.NumberChapter}}</span>
+                            {% endif %}
+                        </div>
+                        <div class="comment-user-content pt-1">{{i.Content}}</div>
+                    </div>
+                    <div class="reply mt-1">
+                        <i class="fa-sharp fa-solid fa-reply"></i>
+                        <span onclick="addBlockReply(this)" class="cursor-pointer">Phản hồi </span>
+                        <span class="ml-4 opacity-75">{{i.CreateAt}}</span>
+                    </div>
+                    
+                    {% comment %} add reply comment {% endcomment %}
+
+                    <div class="reply-hidden mt-3">
+                        {% if request.session.id %}
+                        <div class="row">
+                            <div class="col-1">
+                                <img class="user-avatar" src="/{{comic.Banner}}">
+                            </div>
+                            <div class="col-11">
+                                <form action="{% url 'comic' comic.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <textarea id="comment-content" name="comment" rows="3" cols="50" class="w-100 p-3" placeholder="Bình luận của bạn là gì?"></textarea>
+                                    <input type="submit" value="Đăng" class="btn submit-btn">
+                                    <input type="text" value="reply" name="type" readonly hidden class="">
+                                    <input type="text" value="{{i.id}}" name="id-comment" readonly hidden class=""> 
+                                </form>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="login-to-comment">
+                            Vui lòng đăng nhập để viết bình luận
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    {% comment %} reply comment {% endcomment %}
+
+                    {% for j in i.replies.all %}
                     <div class="row mt-3">
                         <div class="col-1">
                             <img class="user-avatar" src="/{{comic.Banner}}">
@@ -121,33 +193,21 @@
                         <div class="col-11">
                             <div class="comment-box px-4 py-2">
                                 <div class="title">
-                                    <span class="comment-user-name mb-1">{{i.User.Name}}</span>
-                                    <span class="pl-4 comment-chapter">Chapter - {{i.Chapter.NumberChapter}}</span>
+                                    <span class="comment-user-name mb-1">{{j.User.Name}}</span>
+                                    {% if j.Chapter.NumberChapter != None %}
+                                    <span class="pl-4 comment-chapter">Chapter - {{j.Chapter.NumberChapter}}</span>
+                                    {% endif %}
                                 </div>
-                                <div class="comment-user-content pt-1">{{i.Content}}</div>
+                                <div class="comment-user-content pt-1">{{j.Content}}</div>
                             </div>
-                            <div class="reply mt-1"><i class="fa-sharp fa-solid fa-reply"></i>Phản hồi <span class="ml-4 opacity-75">{{i.CreateAt}}</span></div>
-                            {% for j in i.replies.all %}
-                            <div class="row mt-3">
-                                <div class="col-1">
-                                    <img class="user-avatar" src="/{{comic.Banner}}">
-                                </div>
-                                <div class="col-11">
-                                    <div class="comment-box px-4 py-2">
-                                        <div class="title">
-                                            <span class="comment-user-name mb-1">{{i.User.Name}}</span>
-                                            <span class="pl-4 comment-chapter">Chapter - {{i.Chapter.NumberChapter}}</span>
-                                        </div>
-                                        <div class="comment-user-content pt-1">{{j.Content}}</div>
-                                    </div>
-                                    <div><span class="ml-4 opacity-75">{{j.CreateAt}}</span></div>
-                                    
-                                </div>
-                            </div>
-                            {% endfor %}
+                            <div><span class="ml-4 opacity-75">{{j.CreateAt}}</span></div> 
                         </div>
                     </div>
                     {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
                 </div>
             </div>
             <div class="d-none d-lg-block col-lg-4 mt-4 mb-4 suggest-comic">

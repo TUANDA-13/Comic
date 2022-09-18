@@ -9,4 +9,5 @@ urlpatterns = [
     path('<int:id>',ComicInfo.as_view(),name='comic'),
     path('category/<int:id>',CategoryView.as_view(),name='category'),
     path('<int:id>/<int:id_chap>',ChapterView.as_view(),name='chapter'),
+    # path('add-comment', AddComment,name="add-comment")
 ]

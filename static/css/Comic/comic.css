@@ -133,3 +133,26 @@ td, th {
     background-color: var(--color-blue-hover);
     transition: all 0.2s ease;
 }
+
+#comment-content {
+    outline: none;
+    border: 1px solid var(--color-blue);
+}
+
+.submit-btn {
+    border: 1px solid var(--color-blue);
+    width: 200px;
+    background-color: var(--color-blue);
+    color: #fff;
+    transition: all 0.2s ease;
+}
+
+.submit-btn:hover {
+    background-color: var(--color-blue-hover);
+    font-weight: 700;
+}
+
+.reply-hidden {
+    display: none;
+    transition: all 0.2 ease;
+}
