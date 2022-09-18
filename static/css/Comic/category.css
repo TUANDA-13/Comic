@@ -1,0 +1,25 @@
+.header-category__top{
+    background-image: url('../../img/bg_lowpoly.png');
+    /* height: 200px; */
+}
+.header-category__top .title{
+    color: white;
+}
+.header-category__top .decription {
+    min-height: 50px;
+    border: 2px solid #4CB3CE;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    border-radius: 4px;
+}
+.header-category__top .decription::after{
+    position: absolute;
+    opacity: 0.5;
+    width:100%;
+    height: 100%;
+    content: "";
+    background-color: #4CB3CE;
+    left: 0;
+    z-index: -1;
+}

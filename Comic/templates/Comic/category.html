@@ -1,0 +1,35 @@
+{% extends "home.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/Comic/category.css' %}">
+{% endblock %}
+
+
+{% block header %}
+<section class="header-category__top">
+    <div class="container h-100 py-4">
+        <div class="row h-100">
+            <!-- d-flex align-items-center -->
+            <div class="col-4 h-100 ">
+                <div class="title">THỂ LOẠI:</div>
+                <div class="type-comic-favourite my-2"
+                    style="background-image: url('https://c4.wallpaperflare.com/wallpaper/758/769/69/legion-legion-5-lenovo-gaming-laptop-anime-hd-wallpaper-preview.jpg');">
+                    <p class="h-100">{{category.Name}}</p>
+                    <div class="type-comic-favourite__slice">
+                    </div>
+                </div>
+                <div class="title">TOTAL</div>
+            </div>
+            <div class="col-8">
+                <div class="title">
+                    THÔNG TIN THỂ LOẠI:
+                </div> 
+                <div class="title decription d-flex align-items-center pl-3 my-2">
+                    <span>{{category.Decreption}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

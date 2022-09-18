@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+{% block header %}
+{% endblock %}
+<section class="update-comic-lasted py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-9">
+                <h5>TRUYỆN MỚI CẬP NHẬT</h5>
+                <div class="cover">
+                    <div class="row justify-content-center">
+                        {% for chapter in chapters %}
+                        <div class="col-6 col-md-4 col-lg-3 pb-3 ">
+                            <div class="slide-comic">
+                                <a href="{% url 'comic' id=chapter.Comic__id %}">
+                                    <div class="position-relative">
+                                        <img src="{{chapter.Comic__Banner}}">
+                                        <div class="info-comic">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="row">
+                                                        <div class="col-2"><i class="fa-solid fa-eye"></i></div>
+                                                        <div class="col-10"> {{chapter.Views}} views</div>
+                                                        <div class="col-2"><i class="fa-solid fa-file"></i></div>
+                                                        <div class="col-10"> {{chapter.Chapters}} chapters</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="comic-slide-content text-dark">
+                                        <p>{{chapter.Comic__Name | truncatewords:6}}</p>
+                                        <div>
+                                            <!-- {} -->
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <div class="pagination pt-2">
+                    <span class="step-links text-black">
+                        {% if chapters.has_previous %}
+                        <a href="?page={{ chapters.previous_page_number }}"
+                            class="text-dark pagination-number-page">Previous</a>
+                        {% endif %}
+                    </span>
+
+                    <span class="current">
+                        <p class="pagination-number-page">{{ chapters.number }}</p>
+                    </span>
+
+                    <span>
+                        {% if chapters.has_next %}
+                        <a href="?page={{ chapters.next_page_number }}"
+                            class="text-dark pagination-number-page">Next</a>
+                        {% endif %}
+                    </span>
+                </div>
+
+            </div>
+            <div class="d-none d-lg-block col-lg-3">
+                <h5>THỂ LOẠI ĐƯỢC YÊU THÍCH</h5>
+                <div class="cover">
+                    <div class="type-comic-favourite"
+                        style="background-image: url('https://img.youxi369.com/article/contents/2020/06/22/small_2020062225409864.png');">
+                        <p>Đam mỹ</p>
+                        <div class="type-comic-favourite__slice">
+                        </div>
+                    </div>
+                    <div class="type-comic-favourite"
+                        style="background-image: url('https://images5.alphacoders.com/106/1061278.png');">
+                        <p>Yaoi</p>
+                        <div class="type-comic-favourite__slice">
+                        </div>
+                    </div>
+                    <div class="type-comic-favourite"
+                        style="background-image: url('https://mcdn.coolmate.me/image/May2022/manhwa-la-gi-manga-la-gi-manhua-la-gi-phan-cuc-de_476.jpg');">
+                        <p>Manhwa</p>
+                        <div class="type-comic-favourite__slice">
+                        </div>
+                    </div>
+                    <div class="type-comic-favourite"
+                        style="background-image: url('https://inkythuatso.com/uploads/thumbnails/800/2022/03/anh-my-do-toa-nu-vuong-xinh-dep-1-16-17-07-47.jpg');">
+                        <p>Manhua</p>
+                        <div class="type-comic-favourite__slice">
+                        </div>
+                    </div>
+                    <div class="type-comic-favourite"
+                        style="background-image: url('https://mcdn.coolmate.me/image/May2022/manhwa-la-gi-manga-la-gi-manhua-la-gi-phan-cuc-de_829.jpg');">
+                        <p>Ngôn tình</p>
+                        <div class="type-comic-favourite__slice">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

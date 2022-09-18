@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/Account/account.css' %}">
+{% endblock %}
+
+{% block title %}
+<title>Login</title>
+{% endblock %}
+
+{% block content %}
+    <div class="w-100 d-flex align-items-center justify-content-center">
+        <div class="login__box">
+            <div class="title"><h2>Đăng nhập</h2></div>
+            <form action="{% url 'login' %}" method="post">
+                {% csrf_token %}
+                {% for i in form %}
+                    <div class="form-attribute w-100">
+                        <p>{{i.name}}</p>
+                        <p>{{i.error}}</p>
+                        {{i}}
+                    </div>
+                {% endfor %}
+                {% for mess in messages %}
+                    <p class="error pb-1 ">{{mess}}</p>
+                {% endfor %}
+                <input type="submit" value="SUBMIT" class="btn-submit">
+            </form> 
+        </div>
+    </div>
+{% endblock %}

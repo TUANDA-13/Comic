@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/Comic/comic.css' %}">
+{% endblock %}
+
+{% block title %}
+<title>{{comic.Name}}</title>
+{% endblock %}
+
+{% block content %}
+<section class="comic-general-information p-4">
+    <div class="container-fluid">
+        <div class="cover">
+            <div class="row">
+                <div class="col-4 h-100">
+                    <div class="h-100 gradient-border">
+                        <img class="selected-comic" src="/{{comic.Banner}}">
+                        <div class="hot-comic-content">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <h2 class="info-comic-name">{{comic.Name | title}}</h2>
+                    <div class="row mt-4">
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col-4"><strong>Tác giả</strong></div>
+                                <div class="col-8 info-comic">{{comic.Author}}</div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col-4"><strong>Họa sĩ</strong></div>
+                                <div class="col-8 info-comic">Đang cập nhật</div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col-5"><strong>Trạng thái</strong></div>
+                                <div class="col-7 info-comic">
+                                    {% if comic.Status == "Updating" %}
+                                        Đang cập nhật
+                                    {% elif comic.Status == "Draft" %}
+                                        Ngừng phát hành
+                                    {% elif comic.Status == "Completed" %}
+                                        Hoàn thành
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col-4"><strong>Số chap</strong></div>
+                                <div class="col-8 info-comic"></div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col-4"><strong>Lượt xem</strong></div>
+                                <div class="col-8 info-comic">Đang cập nhật</div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col-4"><strong>Theo dõi</strong></div>
+                                <div class="col-8 info-comic">Đang cập nhật</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="decription mt-4 text-justify">
+                        {{comic.Context}}
+                    </div>
+                    <div class="type-comic mt-4">
+                        <div class="row">
+                            {% for i in categories %}
+                            <a href="{% url 'category' i.id %}"><span>{{i.Name}}</span></a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="chapter">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-8 mt-4 mb-4">
+                <div class="cover">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col" onclick="sortTable(0)">Tập <i class="fa-solid fa-arrow-up-wide-short"></i></th>
+                                <!-- <i class="fa-solid fa-arrow-down-short-wide"></i> -->
+                                <th scope="col">Tên chương</th>
+                                <th scope="col">Cập nhật</th>
+                                <th scope="col">Lượt xem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for chapter in chapters %}
+                            <tr>
+                                <th scope="row"><a href="{% url 'chapter' chapter.Comic.id chapter.id %}" class="text-dark">Chap {{chapter.NumberChapter}}</a></th>
+                                <td class="text-secondary">{{chapter.NameChapter}}</td>
+                                <td class="text-secondary">{{chapter.CreateAt|date:'d/m/y H:i'}}</td>
+                                <td class="text-secondary ">{{chapter.Views}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="cover mt-5">
+                    <h4>Bình luận</h4>
+                    {% for i in comic.comments.all %}
+                    <div class="row mt-3">
+                        <div class="col-1">
+                            <img class="user-avatar" src="/{{comic.Banner}}">
+                        </div>
+                        <div class="col-11">
+                            <div class="comment-box px-4 py-2">
+                                <div class="title">
+                                    <span class="comment-user-name mb-1">{{i.User.Name}}</span>
+                                    <span class="pl-4 comment-chapter">Chapter - {{i.Chapter.NumberChapter}}</span>
+                                </div>
+                                <div class="comment-user-content pt-1">{{i.Content}}</div>
+                            </div>
+                            <div class="reply mt-1"><i class="fa-sharp fa-solid fa-reply"></i>Phản hồi <span class="ml-4 opacity-75">{{i.CreateAt}}</span></div>
+                            {% for j in i.replies.all %}
+                            <div class="row mt-3">
+                                <div class="col-1">
+                                    <img class="user-avatar" src="/{{comic.Banner}}">
+                                </div>
+                                <div class="col-11">
+                                    <div class="comment-box px-4 py-2">
+                                        <div class="title">
+                                            <span class="comment-user-name mb-1">{{i.User.Name}}</span>
+                                            <span class="pl-4 comment-chapter">Chapter - {{i.Chapter.NumberChapter}}</span>
+                                        </div>
+                                        <div class="comment-user-content pt-1">{{j.Content}}</div>
+                                    </div>
+                                    <div><span class="ml-4 opacity-75">{{j.CreateAt}}</span></div>
+                                    
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="d-none d-lg-block col-lg-4 mt-4 mb-4 suggest-comic">
+                <div class="cover pb-0">
+                    <h4>Truyện gợi ý</h4>
+                    {% for i in suggest_comic %}
+                        <a href="{% url 'comic' i.Comic__id %}" >
+                            <div class="row mb-3 suggest-comic__item">
+                                <div class="col-12 my-2"><strong  class="info-comic-name">{{i.Comic__Name|truncatewords:6}}</strong></div>
+                                <div class="col-6 padding-right-2"><img src="/{{i.Comic__Banner}}" alt="" class="suggest-comic__image"></div>
+                                <div class="col-6 padding-left-2">
+                                    <p><i class="fa-light fa-files"></i>{{i.Chapters}} Chapters</p>
+                                    <p>{{i.UpdateAt|date:'d/m/y H:i'}}</p>
+                                    <p>{{i.Views}} Views</p>
+                                    <button class="btn btn-watch-now">XEM NGAY</button>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<script>
+    var sort = 1
+    function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("myTable2");
+  switching = true;
+  // Set the sorting direction to ascending:
+  dir = "asc";
+  /* Make a loop that will continue until
+  no switching has been done: */
+  while (switching) {
+    // Start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /* Loop through all table rows (except the
+    first, which contains table headers): */
+    for (i = 1; i < (rows.length - 1); i++) {
+      // Start by saying there should be no switching:
+      shouldSwitch = false;
+      /* Get the two elements you want to compare,
+      one from current row and one from the next: */
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /* Check if the two rows should switch place,
+      based on the direction, asc or desc: */
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /* If a switch has been marked, make the switch
+      and mark that a switch has been done: */
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      // Each time a switch is done, increase this count by 1:
+      switchcount ++;
+    } else {
+      /* If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again. */
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>
+{% endblock %}
