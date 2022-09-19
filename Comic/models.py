@@ -54,17 +54,6 @@ class Chapter(models.Model):
     CreateAt = models.DateTimeField(default=datetime.datetime.now())
     Views = models.BigIntegerField(default=0)
     UpdateAt = models.DateTimeField(default=datetime.datetime.now())
-    # def update(self, *args, **kwargs):
-    #     # Some Business Logic
-
-    #     # Call super to continue the flow -- from below line we are unable to invoke super
-    #     self.Views +=1
-    #     super().update(*args, **kwargs) 
-    # def get(self, *args, **kwargs):
-    #     self.Views+=1
-    #     super().update(*args, **kwargs)
-    #     super().get(*args, **kwargs)
-
     def __str__(self) -> str:
         return self.Comic.Name + " "+ str(self.NumberChapter)
 class Page(models.Model):
@@ -89,10 +78,3 @@ class ComicComment(models.Model):
     Content = models.TextField(blank=False)
     User = models.ForeignKey(Profile,on_delete=models.CASCADE)
     Reply = models.ForeignKey("ComicComment",on_delete=models.CASCADE,related_name='replies',blank=True,null=True)
-    
-# class RepComment(models.Model):
-#     Comment = models.ForeignKey(CommentComic,on_delete=models.CASCADE,related_name='replies')
-#     Content = models.TextField()
-#     User = models.ForeignKey(Profile,on_delete=models.CASCADE)
-#     CreateAt = models.DateTimeField(default=datetime.datetime.now())
-    

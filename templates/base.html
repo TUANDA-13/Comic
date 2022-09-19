@@ -82,8 +82,8 @@
                             <ul class="">
                                 <li><i class="fa-solid fa-house"></i></li>
                                 <a href="{% url 'home' %}" class="w-100 h-100"><li>HOT</li></a>
-                                <li class="position-relative navbar-comic-type">
-                                    THỂ LOẠI
+                                <li class="position-relative navbar-comic-type ">
+                                    <span class="d-flex justify-content-center align-items-center">THỂ LOẠI</span>
                                     <div class="position-absolute comic-type">
                                         <div class="row comic-type-content w-100">
                                             <div class="col-3 ">
@@ -133,7 +133,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <a href="{% url 'home' %}" class="w-100 h-100">
+                                <a href="{% url 'history' %}" class="w-100 h-100">
                                     <li>LỊCH SỬ</li>
                                 </a>
                                 <li class="navbar-rank">
@@ -164,6 +164,9 @@
                                 <a href="{% url 'home' %}" class="w-100 h-100">
                                     <li>CON GÁI</li>
                                 </a>
+                                <a href="{% url 'home' %}" class="w-100 h-100">
+                                    <li>SOURCE CODE</li>
+                                </a>
                             </ul>
                         </div>
                     </div>
@@ -172,6 +175,8 @@
         </div>
     </header>
 
+    {% block header %}
+    {% endblock %}
     {% block content %}
     {% endblock %}
 

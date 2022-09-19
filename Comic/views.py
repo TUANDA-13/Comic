@@ -2,24 +2,19 @@ from winreg import QueryInfoKey, QueryValue
 from Comic.models import Category, Chapter, Comic
 from django.shortcuts import render,redirect
 from django.views import View
-from django.db.models import Avg, Max, Min, Count, Sum
+from django.db.models import Count, Sum
+
+from Viewed.models import Viewed
 from .models import *
 import random
 import math
 from random import shuffle
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-# Create your views here.
+from utils.lib import getCategory, getPaginator
 
-
-class ComicInfo(View):
+class ComicView(View):
     def get(self, request, id=1):
-        categories = Category.objects.all()
-        categories_per_col = math.ceil(len(categories)/4)
-        categories_col_1 = categories[:categories_per_col]
-        categories_col_2 = categories[categories_per_col:2*categories_per_col]
-        categories_col_3 = categories[categories_per_col *
-                                      2:3*categories_per_col]
-        categories_col_4 = categories[categories_per_col*3:]
+        categories_col_1,categories_col_2,categories_col_3,categories_col_4 = getCategory()
         comic = Comic.objects.get(pk=id)
         # suggest_comic = Comic.objects.exclude(pk=id)[:4]
         chapters = Chapter.objects.exclude(pk=id).values('Comic').annotate(Views=Sum('Views')).annotate(Chapters=Count('NumberChapter')).values('Comic__Name','Views','Comic__Banner','Chapters','Comic__id','Comic__Slug').order_by('-Comic__UpdateAt')
@@ -60,23 +55,10 @@ class CategoryView(View):
         else:
             chapters = Chapter.objects.values('Comic').annotate(Views=Sum('Views')).annotate(Chapters=Count('NumberChapter')).values(
             'Comic__Name', 'Views', 'Comic__Banner', 'Chapters', 'Comic__id', 'Comic__Slug').order_by('-Comic__UpdateAt')
-        paginator = Paginator(chapters, 4)
-        page_number = request.GET.get('page')
-        categories = Category.objects.all()
-        categories_per_col = math.ceil(len(categories)/4)
-        categories_col_1 = categories[:categories_per_col]
-        categories_col_2 = categories[categories_per_col:2*categories_per_col]
-        categories_col_3 = categories[categories_per_col *
-                                      2:3*categories_per_col]
-        categories_col_4 = categories[categories_per_col*3:]
-        try:
-            chapters = paginator.page(page_number)
-        except PageNotAnInteger:
-            chapters = paginator.page(1)
-        except EmptyPage:
-            chapters = paginator.page(paginator.num_pages)
+        pageNumber = request.GET.get('page')
+        categories_col_1,categories_col_2,categories_col_3,categories_col_4 = getCategory()
+        chapters = getPaginator(chapters,pageNumber)
         category = Category.objects.get(pk=id)
-
         context = {
             'categories_col_1': categories_col_1,
             'categories_col_2': categories_col_2,
@@ -88,18 +70,20 @@ class CategoryView(View):
         return render(request, 'Comic/category.html', context)
 
 class ChapterView(View):
-    def get(self,request,id=1,id_chap=1):
-        categories = Category.objects.all()
-        categories_per_col = math.ceil(len(categories)/4)
-        categories_col_1 = categories[:categories_per_col]
-        categories_col_2 = categories[categories_per_col:2*categories_per_col]
-        categories_col_3 = categories[categories_per_col *
-                                      2:3*categories_per_col]
-        categories_col_4 = categories[categories_per_col*3:]
-        chapter = Chapter.objects.all()[id_chap-1]
-        pages = Page.objects.filter(Chapter__id = id_chap).order_by('PageNumber')
+    def get(self,request,comic_id=1,chapter_id=1):
+        categories_col_1,categories_col_2,categories_col_3,categories_col_4 = getCategory()
+        chapter = Chapter.objects.all()[chapter_id-1]
+        pages = Page.objects.filter(Chapter__id = chapter_id).order_by('PageNumber')
         chapter.Views += 1
         chapter.save()
+        if('id' in request.session):
+            user_id = request.session['id']
+            viewed  = Viewed.objects.filter(Profile__id = user_id, Chapter__id = chapter_id,Comic__id = comic_id)
+            if viewed.count() == 0:
+                viewed = Viewed.objects.create(Profile = Profile.objects.get(pk = user_id),
+                                               Chapter = Chapter.objects.get(pk = chapter_id),
+                                               Comic = Comic.objects.get(pk = comic_id))
+                viewed.save()
         context = {
             'categories_col_1': categories_col_1,
             'categories_col_2': categories_col_2,

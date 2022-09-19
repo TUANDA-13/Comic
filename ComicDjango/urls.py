@@ -26,4 +26,5 @@ urlpatterns = [
     path('',Home.as_view(),name='home'),
     path('<int:page>',Home.as_view(),name='home'),
     path('comic/',include('Comic.urls')),
+    path('history/',include('Viewed.urls'))
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

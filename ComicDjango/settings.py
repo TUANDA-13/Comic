@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'Chapter',
     'Comic',
-    'ComicViewed',
+    'Viewed',
     'Account',
     'django.contrib.admin',
     'django.contrib.auth',

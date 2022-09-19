@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 
-{% block content %}
+
 {% block header %}
 <section class="suggest-comic py-4">
     <div class="container h-100">
@@ -72,13 +72,17 @@
     </div>
 </section>
 {% endblock %}
+{% comment %} {% block content %}
 <section class="update-comic-lasted py-4">
     <div class="container">
         <div class="row">
             <div class="col-12 col-lg-9">
+                {% block headerContent %}
                 <h5>TRUYỆN MỚI CẬP NHẬT</h5>
+                {% endblock %}
                 <div class="cover">
                     <div class="row justify-content-center">
+                        {% if chapters %}
                         {% for chapter in chapters %}
                         <div class="col-6 col-md-4 col-lg-3 pb-3 ">
                             <div class="slide-comic">
@@ -108,7 +112,7 @@
                             </div>
                         </div>
                         {% endfor %}
-
+                        {% endif %}
                     </div>
                 </div>
                 <div class="pagination pt-2">
@@ -170,4 +174,4 @@
         </div>
     </div>
 </section>
-{% endblock %}
+{% endblock %} {% endcomment %}
