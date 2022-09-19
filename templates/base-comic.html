@@ -4,22 +4,27 @@
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 
-{% block content %}
+
 {% block header %}
 {% endblock %}
+{% block content %}
 <section class="update-comic-lasted py-4">
     <div class="container">
         <div class="row">
             <div class="col-12 col-lg-9">
+                {% block headerContent %}
                 <h5>TRUYỆN MỚI CẬP NHẬT</h5>
+                {% endblock %}
+                {% block comicView %}
                 <div class="cover">
                     <div class="row justify-content-center">
+                        {% if chapters %}
                         {% for chapter in chapters %}
                         <div class="col-6 col-md-4 col-lg-3 pb-3 ">
                             <div class="slide-comic">
                                 <a href="{% url 'comic' id=chapter.Comic__id %}">
                                     <div class="position-relative">
-                                        <img src="{{chapter.Comic__Banner}}">
+                                        <img src="/{{chapter.Comic__Banner}}">
                                         <div class="info-comic">
                                             <div class="row">
                                                 <div class="col-12">
@@ -43,7 +48,7 @@
                             </div>
                         </div>
                         {% endfor %}
-
+                        {% endif %}
                     </div>
                 </div>
                 <div class="pagination pt-2">
@@ -65,7 +70,7 @@
                         {% endif %}
                     </span>
                 </div>
-
+                {% endblock %}
             </div>
             <div class="d-none d-lg-block col-lg-3">
                 <h5>THỂ LOẠI ĐƯỢC YÊU THÍCH</h5>
