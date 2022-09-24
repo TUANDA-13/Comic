@@ -16,14 +16,14 @@ class Profile(models.Model):
     
     def update_filename(instance, filename):
         path = "img/profile"
-        format = str(instance.id)+'.'+ filename.split('.')[-1]
+        format = str(instance.id) +'.'+ filename.split('.')[-1]
         return os.path.join(path, format)
     
     Name = models.CharField(max_length=50)
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,10}$', message="Phone number must be entered in the format: '+999999999'. Up to 10 digits allowed.")
     Phone = models.CharField(validators=[phone_regex], max_length=10) # Validators should be a list
     Gender = models.CharField(choices=GENDER_CHOICES,default=GENDER_CHOICES[0],max_length=20)
-    Avatar = models.ImageField(blank=True,upload_to=update_filename, height_field=None, width_field=None, max_length=100,null=True)
+    Avatar = models.ImageField(blank=True,upload_to=update_filename, height_field=None, width_field=None, max_length=100,null=True,default='default.png')
     Account = models.OneToOneField("Account",on_delete=models.CASCADE,blank=True,null=True,related_name='profile')
     
     def __str__(self) -> str:

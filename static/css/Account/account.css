@@ -7,7 +7,7 @@
     --color-black: #000;
 }
 
-.login__box{
+.login__box {
     height: 300px;
     width: 60%;
     background-color: var(--color-white);
@@ -18,13 +18,16 @@
     justify-content: center;
     margin: 40px;
 }
-.form-attribute{
+
+.form-attribute {
     width: 80%;
 }
-.form-attribute p{
+
+.form-attribute p {
     font-weight: 500;
 }
-.form-attribute input{
+
+.form-attribute input {
     width: 100%;
     margin-bottom: 15px;
     outline: none;
@@ -32,79 +35,148 @@
     border-bottom: 2px solid var(--color-blue-hover);
     height: 40px;
 }
-form{
+
+form {
     width: 60%;
 }
-.btn-submit{
+
+.btn-submit {
     width: 100%;
     background-color: var(--color-blue);
     color: var(--color-white);
     height: 40px;
 }
-.btn-submit:hover{
+
+.btn-submit:hover {
     background-color: var(--color-blue-hover);
     font-weight: 900;
     cursor: pointer;
     transition: all .2s;
 }
-.error{
+
+.error {
     color: var(--color-danger);
     font-weight: 500;
 }
 
 /* REGISTER */
-
-.cover{
+.cover-profile,
+.cover {
     background-color: #fff;
-    margin-top:40px;
+    margin-top: 40px;
     margin-bottom: 40px;
-    max-width: 400px; 
+    max-width: 400px;
+    object-fit: cover;
 }
+
+
+
 #id_user-Email,
 #id_user-Password,
 #id_profile-Name,
 #id_profile-Phone,
 #id_profile-Gender,
 #id_user-ConfirmPassword,
-#id_profile-Avatar{
+#id_profile-Avatar {
     height: 36px;
     border: none;
     background-color: #fff;
     outline: none;
     margin-bottom: 8px;
 }
+
 #id_user-Email,
 #id_user-Password,
 #id_profile-Name,
 #id_profile-Phone,
 #id_user-ConfirmPassword,
-#id_profile-Gender{
-    border-bottom:2px solid var(--color-blue);
+#id_profile-Gender {
+    border-bottom: 2px solid var(--color-blue);
     color: var(--color-blue-hover);
     font-weight: 700;
     width: 100%;
 }
-input::placeholder{
+
+input::placeholder {
     color: var(--color-gray);
     font-size: 16px;
 }
 
 #file-upload-button,
-input.btn{
+input.btn {
     font-size: 16px;
     background-color: #fff !important;
 }
+
 #id_profile-Avatar,
-#file-upload-button{
+#file-upload-button {
     color: #11565f !important;
 }
-.btn-register__submit{
+
+.btn-register__submit {
     width: 100%;
     border: 2px solid var(--color-blue-hover);
     transition: all 0.2s ease;
 }
-.btn-register__submit:hover{
+
+.btn-register__submit:hover {
     color: #fff;
     background-color: var(--color-blue) !important;
+    font-weight: 700;
+}
+
+
+/* profile */
+
+.avatar-img img {
+    width: 250px;
+    border-radius: 250px;
+}
+
+.cover-profile {
+    background-color: #fff;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    max-width: 400px;
+    object-fit: cover;
+}
+
+.cover-profile {
+    width: 1200px !important;
+    max-width: fit-content;
+    overflow: hidden;
+}
+
+#id_profile-Avatar {
+    width: 100%;
+}
+
+#id_Gender,
+#id_Name,
+#id_Phone {
+    border-bottom: 2px solid var(--color-blue);
+    color: var(--color-blue-hover);
+    font-weight: 700;
+    border: none;
+    background-color: #fff;
+    outline: none;
+    margin-bottom: 8px;
+    width: 100%;
+    margin-bottom: 15px;
+    outline: none;
+    border-bottom: 2px solid var(--color-blue-hover);
+    height: 40px;
+}
+
+#Avatar-clear_id {
+    display: none;
+}
+
+label {
+    display: none;
+}
+
+p, .profile a {
+    color: var(--color-blue);
     font-weight: 700;
 }

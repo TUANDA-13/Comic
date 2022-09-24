@@ -49,7 +49,7 @@
             {% if request.session.id %}
             <div class="row">
                 <div class="col-1">
-                    <img class="user-avatar" src="/{{chapter.Comic.Banner}}">
+                    <img class="user-avatar" src="{{request.session.avatar}}">
                 </div>
                 <div class="col-11">
                     <form action="{% url 'chapter' chapter.Comic.id chapter.id %}" method="POST">
@@ -73,7 +73,7 @@
             {% else %}
             <div class="row mt-3">
                 <div class="col-1">
-                    <img class="user-avatar" src="/{{chapter.Comic.Banner}}">
+                    <img class="user-avatar" src="/{{i.User.Avatar}}">
                 </div>
                 <div class="col-11">
                     <div class="comment-box px-4 py-2">
@@ -97,7 +97,7 @@
                         {% if request.session.id %}
                         <div class="row">
                             <div class="col-1">
-                                <img class="user-avatar" src="/{{chapter.Comic.Banner}}">
+                                <img class="user-avatar" src="{{request.session.avatar}}">
                             </div>
                             <div class="col-11">
                                 <form action="{% url 'chapter' chapter.Comic.id chapter.id %}" method="POST">
@@ -121,7 +121,7 @@
                     {% for j in i.replies.all %}
                     <div class="row mt-3">
                         <div class="col-1">
-                            <img class="user-avatar" src="/{{chapter.Comic.Banner}}">
+                            <img class="user-avatar" src="/{{j.User.Avatar  }}">
                         </div>
                         <div class="col-11">
                             <div class="comment-box px-4 py-2">

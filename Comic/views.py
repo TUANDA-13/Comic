@@ -67,6 +67,7 @@ class CategoryView(View):
             'chapters': chapters,
             'category': category,
         }
+        # print(os.path.)
         return render(request, 'Comic/category.html', context)
 
 class ChapterView(View):
@@ -93,11 +94,11 @@ class ChapterView(View):
             'chapter':chapter,
         }
         return render(request,'Comic/chapter.html',context)
-    def post(self,request,id=1,id_chap=1):
+    def post(self,request,comic_id=1,chapter_id=1):
         if request.method == "POST":
             content = request.POST["comment"]
-            comment = ComicComment(Comic=Comic.objects.get(pk=id),
-                                   Chapter=Chapter.objects.get(pk=id_chap),
+            comment = ComicComment(Comic=Comic.objects.get(pk=comic_id),
+                                   Chapter=Chapter.objects.get(pk=chapter_id),
                                    Content = content,
                                    User=Profile.objects.get(pk=request.session['id']))
             if((request.POST["type"])=='reply'):

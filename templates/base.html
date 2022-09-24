@@ -54,18 +54,20 @@
                         <div class="col-3">
                             <div class="account d-flex justify-content-end align-items-center h-100">
 
-                                <span class="text-white"><i class="px-2 fa-solid fa-user text-white"></i>
+                                <span class="text-white h-100 d-flex align-items-center">
+                                    <i class="px-2 fa-solid fa-user text-white"></i>
                                     {% if request.session.name %}
-                                    <div class="logined d-inline">{{ request.session.name }}
+                                    <div class="logined d-flex align-items-center h-100">{{ request.session.name }}
                                         <div class="logined-account">
-                                            <a href="trangcanhan"><i class="fa-solid fa-id-card pr-2"></i>Trang cá
+                                            <a href="{% url 'profile' %}"><i class="fa-solid fa-id-card pr-2"></i>Trang cá
                                                 nhân</a>
+                                            <a href="{% url 'profile' %}"><i class="fa-solid fa-key pr-2"></i>Đổi mật khẩu</a>
                                             <a href="{% url 'logout' %}"><i
                                                     class="fa-solid fa-right-from-bracket pr-2"></i>Đăng xuất</a>
                                         </div>
                                     </div>
                                     {% else %}
-                                    <a href="{% url 'login' %}">Đăng nhập</a>/<a href="{% url 'register' %}">Đăng ký</a>
+                                    <a href="{% url 'login' %}">Đăng nhập </a>/<a href="{% url 'register' %}"> Đăng ký</a>
                                     {% endif %}
                                 </span>
                             </div>
@@ -165,7 +167,7 @@
                                     <li>CON GÁI</li>
                                 </a>
                                 <a href="{% url 'home' %}" class="w-100 h-100">
-                                    <li>SOURCE CODE</li>
+                                    <li>CODE</li>
                                 </a>
                             </ul>
                         </div>
