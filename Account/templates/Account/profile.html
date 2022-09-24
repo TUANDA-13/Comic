@@ -5,10 +5,45 @@
 {% endblock %}
 
 {% block title %}
-<title>Login</title>
+<title>Profile</title>
 {% endblock %}
 
 
 {% block content %}
+<section class="profile">
+    <div class="container d-flex justify-content-center">
+        <div class="cover-profile d-flex w-100 flex-column p-5  ">
+            <h1 class="w-100 d-flex justify-content-center">Trang cá nhân</h1>
+            
+            <div class="row mt-3 ">
+                <div class="col-5">
+                    <div class="avatar-img">
+                        <img src="/{{ form.Avatar.value }}" alt="connect" style="">  
+                    </div>
+                </div>
+                <div class="col-7">
+                    <form class="w-100" action="{% url 'profile' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <p class="">{{form.Name}}</p>
+                        <p class="">{{form.Phone}}</p>
+                        <p class="">{{form.Gender}}</p>
+                        <p class="">{{form.Avatar}}</p>
+                        {% if form.errors %}
+                            {% for field in form %}
+                                {% for error in field.errors %} 
+                                    <div class="alert alert-danger">
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                        {% endif %}
+                        <input type="submit" class="btn btn-register__submit mt-3" value="Cập nhật">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 {% endblock %}

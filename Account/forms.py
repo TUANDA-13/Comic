@@ -52,7 +52,6 @@ class ProfileRegisterForm(ModelForm):
         widgets = {
             'Name': TextInput(attrs={'class':'Name__input','placeholder':'Full name'}),
             'Phone':TextInput(attrs={'class':'Phone__input','placeholder':'Phone'}),
-            # 'Avatar':ImageField(),
         }
 class UserCreationMultiForm(MultiModelForm):
     form_classes = {
@@ -61,7 +60,6 @@ class UserCreationMultiForm(MultiModelForm):
     }
     def save(self, commit=True):
         objects = super(UserCreationMultiForm, self).save(commit=False)
-
         if commit:
             user = objects['user']
             user.save()
@@ -69,3 +67,12 @@ class UserCreationMultiForm(MultiModelForm):
             profile.Account = user
             profile.save()
         return objects
+    
+class ProfileUpdateForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['Name','Phone','Gender','Avatar']
+        widgets = {
+            'Name': TextInput(attrs={'class':'Name__input','placeholder':'Full name'}),
+            'Phone':TextInput(attrs={'class':'Phone__input','placeholder':'Phone'}),
+        }

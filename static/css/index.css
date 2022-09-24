@@ -130,16 +130,18 @@ p {
     display: none;
     flex-direction: column;
     background-color: var(--color-white);
-    top: 20px;
+    top: 40px;
     right: -41px;
     z-index: 1;
-    width: 160px;
+    width: 200px;
     box-shadow: 2px 2px 2px 2px var(--color-gray);
     padding: 16px;
     border-radius: 4px;
 }
 
-.logined:hover {}
+.logined-account:hover {
+    display: flex;
+}
 
 .logined:hover .logined-account {
     display: flex;
